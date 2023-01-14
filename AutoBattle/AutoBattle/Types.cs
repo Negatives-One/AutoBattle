@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using System.Text;
 
 namespace AutoBattle
@@ -9,33 +10,30 @@ namespace AutoBattle
 
         public struct CharacterClassSpecific
         {
-            CharacterClass CharacterClass;
+            CharacterClass characterClass;
             float hpModifier;
-            float ClassDamage;
+            float classDamage;
             CharacterSkills[] skills;
-
         }
 
-        public struct GridBox
+        public struct GridTile
         {
-            public int xIndex;
-            public int yIndex;
+            public Vector2 position;
             public bool ocupied;
-            public int Index;
+            public int index;
 
-            public GridBox(int x, int y, bool ocupied, int index)
+            public GridTile(Vector2 pos, bool ocupied, int index)
             {
-                xIndex = x;
-                yIndex = y;
+                position = pos;
                 this.ocupied = ocupied;
-                this.Index = index;
+                this.index = index;
             }
 
         }
 
         public struct CharacterSkills
         {
-            string Name;
+            string name;
             float damage;
             float damageMultiplier;
         }

@@ -3,38 +3,37 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using static AutoBattle.Types;
+using System.Numerics;
 
 namespace AutoBattle
 {
     public class Grid
     {
-        public List<GridBox> grids = new List<GridBox>();
-        public int xLenght;
-        public int yLength;
-        public Grid(int Lines, int Columns)
+        public List<GridTile> GridTiles = new List<GridTile>();
+        public Vector2 GridSize;
+        public Grid(Vector2 size)
         {
-            xLenght = Lines;
-            yLength = Columns;
+            GridSize = size;
             Console.WriteLine("The battle field has been created\n");
-            for (int i = 0; i < Lines; i++)
+            for (int i = 0; i < GridSize.X; i++)
             {
-                    grids.Add(newBox);
-                for(int j = 0; j < Columns; j++)
+                for (int j = 0; j < GridSize.Y; j++)
                 {
-                    GridBox newBox = new GridBox(j, i, false, (Columns * i + j));
-                    Console.Write($"{newBox.Index}\n");
+                    GridTile newBox = new GridTile(new Vector2(j, i), false, (int)GridSize.X * i + j);
+                    GridTiles.Add(newBox);
+                    Console.Write($"{newBox.index}\n");
                 }
             }
         }
 
         // prints the matrix that indicates the tiles of the battlefield
-        public void drawBattlefield(int Lines, int Columns)
+        public void DrawBattlefield(Vector2 size)
         {
-            for (int i = 0; i < Lines; i++)
+            for (int i = 0; i < size.X; i++)
             {
-                for (int j = 0; j < Columns; j++)
+                for (int j = 0; j < size.Y; j++)
                 {
-                    GridBox currentgrid = new GridBox();
+                    GridTile currentgrid = new GridTile();
                     if (currentgrid.ocupied)
                     {
                         //if()
