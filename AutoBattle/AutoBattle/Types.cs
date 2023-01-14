@@ -19,13 +19,13 @@ namespace AutoBattle
         public struct GridTile
         {
             public Vector2 position;
-            public bool ocupied;
+            public Character ocupiedBy;
             public int index;
 
-            public GridTile(Vector2 pos, bool ocupied, int index)
+            public GridTile(Vector2 pos, Character ocupied, int index)
             {
                 position = pos;
-                this.ocupied = ocupied;
+                this.ocupiedBy = ocupied;
                 this.index = index;
             }
 

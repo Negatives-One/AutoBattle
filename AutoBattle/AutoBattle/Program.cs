@@ -45,7 +45,7 @@ namespace AutoBattle
 
                 if (GameManager.CurrentTurn == 0)
                 {
-                    //AllPlayers.Sort();  
+                    GameManager.AllCharacters = GameManager.AllCharacters.OrderByDescending(o => o.Speed).ToList();
                 }
 
                 foreach (Character character in GameManager.AllPlayers)
@@ -59,29 +59,32 @@ namespace AutoBattle
 
             void HandleTurn()
             {
-                //if (GameManager.PlayerCharacter.Health == 0)
-                //{
-                //    return;
-                //}
-                //else if (GameManager.EnemyCharacter.Health == 0)
-                //{
-                //    Console.Write(Environment.NewLine + Environment.NewLine);
+                if (GameManager.AllPlayerIsDead())
+                {
+                    EndGame("Players");
+                    return;
+                }
+                else if (GameManager.AllEnemyIsDead())
+                {
+                    EndGame("Enemies");
+                    return;
+                }
+                else
+                {
+                    Console.Write(Environment.NewLine + Environment.NewLine);
+                    Console.WriteLine("Click on any key to start the next turn...\n");
+                    Console.Write(Environment.NewLine + Environment.NewLine);
 
-                //    // endgame?
+                    ConsoleKeyInfo key = Console.ReadKey();
+                    StartTurn();
+                }
+            }
 
-                //    Console.Write(Environment.NewLine + Environment.NewLine);
-
-                //    return;
-                //}
-                //else
-                //{
-                //    Console.Write(Environment.NewLine + Environment.NewLine);
-                //    Console.WriteLine("Click on any key to start the next turn...\n");
-                //    Console.Write(Environment.NewLine + Environment.NewLine);
-
-                //    ConsoleKeyInfo key = Console.ReadKey();
-                //    StartTurn();
-                //}
+            void EndGame(string winner)
+            {
+                Console.Write(Environment.NewLine + Environment.NewLine);
+                Console.WriteLine(winner + " won the game!\n");
+                Console.Write(Environment.NewLine + Environment.NewLine);
             }
         }
     }

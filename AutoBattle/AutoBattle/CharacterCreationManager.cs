@@ -117,12 +117,12 @@ namespace AutoBattle
             GridTile randomLocation = freeTiles.ElementAt(randomIndex);
             Console.Write($"{randomLocation.index}\n");
 
-            randomLocation.ocupied = true;
+            randomLocation.ocupiedBy = character;
             character.CurrentTile = randomLocation;
 
             GameManager.Grid.UpdateTile(randomLocation);
 
-            GameManager.Grid.DrawBattlefield(new Vector2(5, 5));
+            GameManager.Grid.DrawBattlefield();
 
             character.Deployed();
         }

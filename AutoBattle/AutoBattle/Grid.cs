@@ -24,7 +24,7 @@ namespace AutoBattle
             {
                 for (int j = 0; j < GridSize.Y; j++)
                 {
-                    GridTile newBox = new GridTile(new Vector2(j, i), false, (int)GridSize.X * i + j);
+                    GridTile newBox = new GridTile(new Vector2(j, i), null, (int)GridSize.X * i + j);
                     GridTiles.Add(newBox);
                     Console.Write($"{newBox.index}\n");
                 }
@@ -35,17 +35,16 @@ namespace AutoBattle
         /// prints the matrix that indicates the tiles of the battlefield
         /// </summary>
         /// <param name="size">Size of the battlefield that will be drawn</param>
-        public void DrawBattlefield(Vector2 size)
+        public void DrawBattlefield()
         {
-            for (int i = 0; i < size.X; i++)
+            for (int i = 0; i < (int)GridSize.X; i++)
             {
-                for (int j = 0; j < size.Y; j++)
+                for (int j = 0; j < (int)GridSize.Y; j++)
                 {
-                    GridTile currentgrid = new GridTile();
-                    if (currentgrid.ocupied)
+                    GridTile currentgrid = GridTiles[(int)GridSize.X * i + j];
+                    if (currentgrid.ocupiedBy != null)
                     {
-                        //if()
-                        Console.Write("[X]\t");
+                        Console.Write("[" + currentgrid.ocupiedBy.Sprite + "]\t");
                     }
                     else
                     {
@@ -63,7 +62,7 @@ namespace AutoBattle
 
             foreach (GridTile g in GridTiles)
             {
-                if (!g.ocupied)
+                if (g.ocupiedBy == null)
                 {
                     freeTiles.Add(g);
                 }

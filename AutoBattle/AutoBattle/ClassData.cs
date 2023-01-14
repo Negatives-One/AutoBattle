@@ -16,19 +16,21 @@ namespace AutoBattle
             public int health;
             public int baseDamage;
             public int speed;
+            public string sprite;
 
-            public ClassStats(int _health, int _baseDamage, int _speed)
+            public ClassStats(int _health, int _baseDamage, int _speed, string _sprite)
             {
                 health = _health;
                 baseDamage = _baseDamage;
                 speed = _speed;
+                sprite = _sprite;
             }
         }
 
-        private static ClassStats paladin = new ClassStats(120, 50, 80);
-        private static ClassStats warrior = new ClassStats(110, 60, 110);
-        private static ClassStats cleric = new ClassStats(100, 70, 90);
-        private static ClassStats archer = new ClassStats(90, 80, 100);
+        private static ClassStats paladin = new ClassStats(120, 50, 80, "P");
+        private static ClassStats warrior = new ClassStats(110, 60, 110, "W");
+        private static ClassStats cleric = new ClassStats(100, 70, 90, "C");
+        private static ClassStats archer = new ClassStats(90, 80, 100, "A");
 
         public static ClassStats GetClassStats(CharacterClass characterClass)
         {

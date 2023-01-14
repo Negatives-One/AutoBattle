@@ -27,5 +27,24 @@ namespace AutoBattle
         {
             return AllEnemies[Randomizer.GetRandomInt(0, AllEnemies.Count)];
         }
+
+        public static bool AllPlayerIsDead()
+        {
+            float sum = 0;
+            foreach (Character item in AllPlayers)
+            {
+                sum += item.Health;
+            }
+            return sum > 0;
+        }
+        public static bool AllEnemyIsDead()
+        {
+            float sum = 0;
+            foreach (Character item in AllEnemies)
+            {
+                sum += item.Health;
+            }
+            return sum > 0;
+        }
     }
 }
