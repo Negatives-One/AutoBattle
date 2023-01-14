@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "QybFvU9TVmj+ZetZNYjxKlPqn2vRCweDG95JSttPA1tvPw2DYNtMcAPApRcAiXio59Ii7q9tHczzU+mwmUaNBA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\ADM\\Downloads\\Dev_test_csharp\\AutoBattle\\AutoBattle\\AutoBattle.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ADM\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\ADM\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\ADM\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\ADM\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.31\\microsoft.netcore.app.host.win-x64.3.1.31.nupkg.sha512"
+  ],
+  "logs": []
+}
