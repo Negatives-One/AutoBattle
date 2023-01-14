@@ -22,6 +22,7 @@ namespace AutoBattle
 
         public Character(CharacterClass _characterClass, int _contextIndex, int _characterIndex, bool _isEnemy)
         {
+            //populates the character variables and targets
             ClassStats stats = ClassData.GetClassStats(_characterClass);
             Health = stats.health;
             BaseDamage = stats.baseDamage;
@@ -30,6 +31,11 @@ namespace AutoBattle
             IsEnemy = _isEnemy;
         }
 
+        public void Deployed()
+        {
+            if (IsEnemy) Target = GameManager.GetRandomPlayer();
+            else Target = GameManager.GetRandomEnemy();
+        }
 
         public bool TakeDamage(float amount)
         {

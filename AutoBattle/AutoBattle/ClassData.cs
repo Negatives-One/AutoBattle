@@ -8,22 +8,27 @@ namespace AutoBattle
 {
     public static class ClassData
     {
+        /// <summary>
+        /// A Struct that carries a class stats data
+        /// </summary>
         public struct ClassStats
         {
             public int health;
             public int baseDamage;
+            public int speed;
 
-            public ClassStats(int _health, int _baseDamage)
+            public ClassStats(int _health, int _baseDamage, int _speed)
             {
                 health = _health;
                 baseDamage = _baseDamage;
+                speed = _speed;
             }
         }
 
-        private static ClassStats paladin = new ClassStats(120, 50);
-        private static ClassStats warrior = new ClassStats(110, 60);
-        private static ClassStats cleric = new ClassStats(100, 70);
-        private static ClassStats archer = new ClassStats(90, 80);
+        private static ClassStats paladin = new ClassStats(120, 50, 80);
+        private static ClassStats warrior = new ClassStats(110, 60, 110);
+        private static ClassStats cleric = new ClassStats(100, 70, 90);
+        private static ClassStats archer = new ClassStats(90, 80, 100);
 
         public static ClassStats GetClassStats(CharacterClass characterClass)
         {
