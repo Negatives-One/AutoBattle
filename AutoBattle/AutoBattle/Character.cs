@@ -4,6 +4,7 @@ using System.Text;
 using System.Linq;
 using static AutoBattle.Types;
 using System.Numerics;
+using static AutoBattle.ClassData;
 
 namespace AutoBattle
 {
@@ -14,12 +15,19 @@ namespace AutoBattle
         public float BaseDamage;
         public float DamageMultiplier { get; set; }
         public GridTile CurrentTile;
-        public int PlayerIndex;
+        public int ContextIndex;
+        public int CharacterIndex;
+        public bool IsEnemy;
         public Character Target { get; set; }
 
-        public Character(CharacterClass characterClass)
+        public Character(CharacterClass _characterClass, int _contextIndex, int _characterIndex, bool _isEnemy)
         {
-
+            ClassStats stats = ClassData.GetClassStats(_characterClass);
+            Health = stats.health;
+            BaseDamage = stats.baseDamage;
+            ContextIndex = _contextIndex;
+            CharacterIndex = _characterIndex;
+            IsEnemy = _isEnemy;
         }
 
 
@@ -64,7 +72,7 @@ namespace AutoBattle
                         CurrentTile = (battlefield.GridTiles.Find(x => x.index == CurrentTile.index - 1));
                         CurrentTile.ocupied = true;
                         battlefield.GridTiles[CurrentTile.index] = CurrentTile;
-                        Console.WriteLine($"Player {PlayerIndex} walked left\n");
+                        Console.WriteLine($"Player {ContextIndex} walked left\n");
                         battlefield.DrawBattlefield(new Vector2(5, 5));
 
                         return;
@@ -76,7 +84,7 @@ namespace AutoBattle
                     CurrentTile = (battlefield.GridTiles.Find(x => x.index == CurrentTile.index + 1));
                     CurrentTile.ocupied = true;
                     battlefield.GridTiles[CurrentTile.index] = CurrentTile;
-                    Console.WriteLine($"Player {PlayerIndex} walked right\n");
+                    Console.WriteLine($"Player {ContextIndex} walked right\n");
                     battlefield.DrawBattlefield(new Vector2(5, 5));
                     return;
                 }
@@ -89,7 +97,7 @@ namespace AutoBattle
                     this.CurrentTile = (battlefield.GridTiles.Find(x => x.index == CurrentTile.index - battlefield.GridSize.X));
                     this.CurrentTile.ocupied = true;
                     battlefield.GridTiles[CurrentTile.index] = CurrentTile;
-                    Console.WriteLine($"Player {PlayerIndex} walked up\n");
+                    Console.WriteLine($"Player {ContextIndex} walked up\n");
                     return;
                 }
                 else if(this.CurrentTile.position.Y < Target.CurrentTile.position.Y)
@@ -99,7 +107,7 @@ namespace AutoBattle
                     this.CurrentTile = (battlefield.GridTiles.Find(x => x.index == CurrentTile.index + battlefield.GridSize.X));
                     this.CurrentTile.ocupied = false;
                     battlefield.GridTiles[CurrentTile.index] = CurrentTile;
-                    Console.WriteLine($"Player {PlayerIndex} walked down\n");
+                    Console.WriteLine($"Player {ContextIndex} walked down\n");
                     battlefield.DrawBattlefield(new Vector2(5, 5));
 
                     return;
@@ -126,7 +134,7 @@ namespace AutoBattle
         {
             Random rand = new Random();
             target.TakeDamage(rand.Next(0, (int)BaseDamage));
-            Console.WriteLine($"Player {PlayerIndex} is attacking the player {Target.PlayerIndex} and did {BaseDamage} damage\n");
+            Console.WriteLine($"Player {ContextIndex} is attacking the player {Target.ContextIndex} and did {BaseDamage} damage\n");
         }
     }
 }

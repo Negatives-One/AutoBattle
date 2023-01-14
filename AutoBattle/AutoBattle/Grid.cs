@@ -11,6 +11,11 @@ namespace AutoBattle
     {
         public List<GridTile> GridTiles = new List<GridTile>();
         public Vector2 GridSize;
+
+        /// <summary>
+        /// Constructor method
+        /// </summary>
+        /// <param name="size">Game battlefield size</param>
         public Grid(Vector2 size)
         {
             GridSize = size;
@@ -26,7 +31,10 @@ namespace AutoBattle
             }
         }
 
-        // prints the matrix that indicates the tiles of the battlefield
+        /// <summary>
+        /// prints the matrix that indicates the tiles of the battlefield
+        /// </summary>
+        /// <param name="size">Size of the battlefield that will be drawn</param>
         public void DrawBattlefield(Vector2 size)
         {
             for (int i = 0; i < size.X; i++)
@@ -49,5 +57,29 @@ namespace AutoBattle
             Console.Write(Environment.NewLine + Environment.NewLine);
         }
 
+        public List<GridTile> GetFreeTiles()
+        {
+            List<GridTile> freeTiles = new List<GridTile>();
+
+            foreach (GridTile g in GridTiles)
+            {
+                if (!g.ocupied)
+                {
+                    freeTiles.Add(g);
+                }
+            }
+            return freeTiles;
+        }
+
+        public void UpdateTile(GridTile tile)
+        {
+            for (int i = 0; i < GridTiles.Count; i++)
+            {
+                if (GridTiles[i].index == tile.index)
+                {
+                    GridTiles[i] = tile;
+                }
+            }
+        }
     }
 }
