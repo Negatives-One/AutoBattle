@@ -16,5 +16,11 @@ namespace AutoBattle
             int index = rand.Next(min, max);
             return index;
         }
+        public static float GetPercentage()
+        {
+            var rand = new Random();
+            float value = (float)rand.NextDouble();
+            return value;
+        }
     }
 }

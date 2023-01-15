@@ -14,37 +14,39 @@ namespace AutoBattle
         {
 
         }
-
+        /// <summary>
+        /// Get player's character quantity choice
+        /// </summary>
         public void TeamsSizeChoice()
         {
-            int choicePlayer = 0;
-            while (choicePlayer < 1 || choicePlayer > 3)
-            {
-                //asks for the player to choose between for possible lengths via console.
-                Console.WriteLine("Choose player quantity (1 - 3):\n");
-                //store the player choice in a variable
+            //int choicePlayer = 0;
+            //while (choicePlayer < 1 || choicePlayer > 3)
+            //{
+            //    //asks for the player to choose between for possible lengths via console.
+            //    Console.WriteLine("Choose player quantity (1 - 3):\n");
+            //    //store the player choice in a variable
 
-                choicePlayer = int.Parse(Console.ReadLine());
-                if (choicePlayer < 1 || choicePlayer > 3)
-                {
-                    Console.WriteLine("Choose a valid quantity.\n");
-                }
-            }
-            int choiceEnemy = 0;
-            while (choiceEnemy < 1 || choiceEnemy > 3)
-            {
-                //asks for the player to choose between for possible lengths via console.
-                Console.WriteLine("Choose enemy quantity (1 - 3):\n");
-                //store the player choice in a variable
+            //    choicePlayer = int.Parse(Console.ReadLine());
+            //    if (choicePlayer < 1 || choicePlayer > 3)
+            //    {
+            //        Console.WriteLine("Choose a valid quantity.\n");
+            //    }
+            //}
+            //int choiceEnemy = 0;
+            //while (choiceEnemy < 1 || choiceEnemy > 3)
+            //{
+            //    //asks for the player to choose between for possible lengths via console.
+            //    Console.WriteLine("Choose enemy quantity (1 - 3):\n");
+            //    //store the player choice in a variable
 
-                choiceEnemy = int.Parse(Console.ReadLine());
-                if (choiceEnemy < 1 || choiceEnemy > 3)
-                {
-                    Console.WriteLine("Choose a valid quantity.\n");
-                }
-            }
-            GameManager.PlayerTeamSize = choicePlayer;
-            GameManager.EnemyTeamSize = choiceEnemy;
+            //    choiceEnemy = int.Parse(Console.ReadLine());
+            //    if (choiceEnemy < 1 || choiceEnemy > 3)
+            //    {
+            //        Console.WriteLine("Choose a valid quantity.\n");
+            //    }
+            //}
+            GameManager.PlayerTeamSize = 1;//choicePlayer;
+            GameManager.EnemyTeamSize = 1;//choiceEnemy;
         }
 
         /// <summary>
@@ -77,11 +79,12 @@ namespace AutoBattle
         /// <param name="characterClass">class to be created</param>
         public void CreatePlayerCharacter(CharacterClass characterClass)
         {
-            Console.WriteLine($"Player Class Choice: {characterClass}");
             Character playerCharacter = new Character(characterClass, GameManager.AllPlayers.Count, GameManager.AllCharacters.Count, false);
 
             GameManager.AllPlayers.Add(playerCharacter);
             GameManager.AllCharacters.Add(playerCharacter);
+
+            Console.WriteLine($"Player Class Choice: {characterClass}, {playerCharacter.Name} reporting for battle");
         }
         /// <summary>
         /// Creates a enemy with random class
@@ -92,11 +95,12 @@ namespace AutoBattle
             var rand = new Random();
             CharacterClass enemyClass = (CharacterClass)rand.Next(1, 4);
 
-            Console.WriteLine($"Enemy Class Choice: {enemyClass}");
             Character enemyCharacter = new Character(enemyClass, GameManager.AllEnemies.Count, GameManager.AllCharacters.Count, true);
 
             GameManager.AllEnemies.Add(enemyCharacter);
             GameManager.AllCharacters.Add(enemyCharacter);
+
+            Console.WriteLine($"Enemy Class Choice: {enemyClass}, {enemyCharacter.Name} reporting for battle");
         }
         /// <summary>
         /// Place characters on grid
@@ -108,14 +112,16 @@ namespace AutoBattle
                 AlocateSingleCharacter(character);
             }
         }
-
+        /// <summary>
+        /// Place a character on the battlefield
+        /// </summary>
+        /// <param name="character"></param>
         public void AlocateSingleCharacter(Character character)
         {
             List<GridTile> freeTiles = GameManager.Grid.GetFreeTiles();
 
             int randomIndex = Randomizer.GetRandomInt(0, freeTiles.Count - 1);
             GridTile randomLocation = freeTiles.ElementAt(randomIndex);
-            Console.Write($"{randomLocation.index}\n");
 
             randomLocation.ocupiedBy = character;
             character.CurrentTile = randomLocation;

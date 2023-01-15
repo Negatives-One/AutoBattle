@@ -48,9 +48,9 @@ namespace AutoBattle
                     GameManager.AllCharacters = GameManager.AllCharacters.OrderByDescending(o => o.Speed).ToList();
                 }
 
-                foreach (Character character in GameManager.AllPlayers)
+                foreach (Character character in GameManager.AllCharacters)
                 {
-                    character.StartTurn(GameManager.Grid);
+                    character.StartTurn();
                 }
 
                 GameManager.CurrentTurn++;
@@ -61,12 +61,12 @@ namespace AutoBattle
             {
                 if (GameManager.AllPlayerIsDead())
                 {
-                    EndGame("Players");
+                    EndGame("Enemies");
                     return;
                 }
                 else if (GameManager.AllEnemyIsDead())
                 {
-                    EndGame("Enemies");
+                    EndGame("Players");
                     return;
                 }
                 else

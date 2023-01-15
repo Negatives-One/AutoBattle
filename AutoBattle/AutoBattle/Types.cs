@@ -29,6 +29,11 @@ namespace AutoBattle
                 this.index = index;
             }
 
+            public bool IsOcupied()
+            {
+                return ocupiedBy != null;
+            }
+
         }
 
         public struct CharacterSkills

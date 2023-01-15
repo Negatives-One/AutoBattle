@@ -13,28 +13,34 @@ namespace AutoBattle
         /// </summary>
         public struct ClassStats
         {
+            public string className;
             public int health;
             public int baseDamage;
             public int speed;
+            public int range;
             public string sprite;
+            public Skill skill;
 
-            public ClassStats(int _health, int _baseDamage, int _speed, string _sprite)
+            public ClassStats(string _className, int _health, int _baseDamage, int _speed, int _range, string _sprite, Skill _skill)
             {
+                className = _className;
                 health = _health;
                 baseDamage = _baseDamage;
                 speed = _speed;
+                range = _range;
                 sprite = _sprite;
+                skill = _skill;
             }
         }
 
-        private static ClassStats paladin = new ClassStats(120, 50, 80, "P");
-        private static ClassStats warrior = new ClassStats(110, 60, 110, "W");
-        private static ClassStats cleric = new ClassStats(100, 70, 90, "C");
-        private static ClassStats archer = new ClassStats(90, 80, 100, "A");
+        private static ClassStats paladin = new ClassStats("Paladin", 190, 45, 80, 1, "P", new ShieldStrike("Shield Strike"));
+        private static ClassStats warrior = new ClassStats("Warrior", 110, 60, 110, 1, "W", new DoubleDamage("Double Damage"));
+        private static ClassStats cleric = new ClassStats("Cleric", 100, 70, 90, 2, "C", new Heal("Heal"));
+        private static ClassStats archer = new ClassStats("Archer", 90, 80, 100, 3, "A", new Knockback("Knockback"));
 
-        public static ClassStats GetClassStats(CharacterClass characterClass)
+        public static ClassStats GetClassData(CharacterClass characterClass)
         {
-            switch(characterClass)
+            switch (characterClass)
             {
                 case CharacterClass.Paladin:
                     return paladin;

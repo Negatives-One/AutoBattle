@@ -10,14 +10,13 @@ namespace AutoBattle
 {
     public static class GameManager
     {
-        public static Grid Grid = new Grid(new Vector2(5, 5));
+        public static Grid Grid;
         public static int PlayerTeamSize = 1;
         public static int EnemyTeamSize = 1;
         public static List<Character> AllPlayers = new List<Character>();
         public static List<Character> AllEnemies = new List<Character>();
         public static List<Character> AllCharacters = new List<Character>();
         public static int CurrentTurn = 0;
-        public static int NumberOfPossibleTiles = Grid.GridTiles.Count;
 
         public static Character GetRandomPlayer()
         {
@@ -35,7 +34,7 @@ namespace AutoBattle
             {
                 sum += item.Health;
             }
-            return sum > 0;
+            return sum <= 0;
         }
         public static bool AllEnemyIsDead()
         {
@@ -44,7 +43,7 @@ namespace AutoBattle
             {
                 sum += item.Health;
             }
-            return sum > 0;
+            return sum <= 0;
         }
     }
 }

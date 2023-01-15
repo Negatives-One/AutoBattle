@@ -9,7 +9,7 @@ namespace AutoBattle
 {
     public class Grid
     {
-        public List<GridTile> GridTiles = new List<GridTile>();
+        public List<List<GridTile>> GridTiles = new List<List<GridTile>>();
         public Vector2 GridSize;
 
         /// <summary>
@@ -19,14 +19,14 @@ namespace AutoBattle
         public Grid(Vector2 size)
         {
             GridSize = size;
-            Console.WriteLine("The battle field has been created\n");
-            for (int i = 0; i < GridSize.X; i++)
+            Console.WriteLine("The battlefield has been created\n");
+            for (int i = 0; i < GridSize.Y; i++)
             {
-                for (int j = 0; j < GridSize.Y; j++)
+                GridTiles.Add(new List<GridTile>());
+                for (int j = 0; j < GridSize.X; j++)
                 {
-                    GridTile newBox = new GridTile(new Vector2(j, i), null, (int)GridSize.X * i + j);
-                    GridTiles.Add(newBox);
-                    Console.Write($"{newBox.index}\n");
+                    GridTile newBox = new GridTile(new Vector2(i, j), null, (int)GridSize.X * i + j);
+                    GridTiles[i].Add(newBox);
                 }
             }
         }
@@ -41,10 +41,20 @@ namespace AutoBattle
             {
                 for (int j = 0; j < (int)GridSize.Y; j++)
                 {
-                    GridTile currentgrid = GridTiles[(int)GridSize.X * i + j];
+                    GridTile currentgrid = GridTiles[j][i];
                     if (currentgrid.ocupiedBy != null)
                     {
+                        if (currentgrid.ocupiedBy.IsEnemy)
+                        {
+                            Console.BackgroundColor = ConsoleColor.Red;
+                        }
+                        else
+                        {
+                            Console.BackgroundColor = ConsoleColor.Blue;
+                        }
                         Console.Write("[" + currentgrid.ocupiedBy.Sprite + "]\t");
+                        Console.BackgroundColor = ConsoleColor.Black;
+
                     }
                     else
                     {
@@ -60,11 +70,14 @@ namespace AutoBattle
         {
             List<GridTile> freeTiles = new List<GridTile>();
 
-            foreach (GridTile g in GridTiles)
+            foreach (List<GridTile> i in GridTiles)
             {
-                if (g.ocupiedBy == null)
+                foreach (GridTile j in i)
                 {
-                    freeTiles.Add(g);
+                    if (j.ocupiedBy == null)
+                    {
+                        freeTiles.Add(j);
+                    }
                 }
             }
             return freeTiles;
@@ -74,11 +87,37 @@ namespace AutoBattle
         {
             for (int i = 0; i < GridTiles.Count; i++)
             {
-                if (GridTiles[i].index == tile.index)
+                for (int j = 0; j < GridTiles[i].Count; j++)
                 {
-                    GridTiles[i] = tile;
+                    if (GridTiles[i][j].index == tile.index)
+                    {
+                        GridTiles[i][j] = tile;
+                        return;
+                    }
                 }
             }
+        }
+
+        public Character ClosestCharacter(GridTile gridTile)
+        {
+            float distance = float.PositiveInfinity;
+            Character character = null;
+            for (int i = 0; i < GridTiles.Count; i++)
+            {
+                for (int j = 0; j < GridTiles[i].Count; j++)
+                {
+                    if (GridTiles[i][j].IsOcupied() && GridTiles[i][j].index != gridTile.index)
+                    {
+                        float d = Vector2.Distance(gridTile.position, GridTiles[i][j].position);
+                        if (d < distance)
+                        {
+                            distance = d;
+                            character = GridTiles[i][j].ocupiedBy;
+                        }
+                    }
+                }
+            }
+            return character;
         }
     }
 }
