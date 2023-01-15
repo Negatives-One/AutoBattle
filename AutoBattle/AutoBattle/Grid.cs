@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 using static AutoBattle.Types;
 using System.Numerics;
 
@@ -32,7 +30,7 @@ namespace AutoBattle
         }
 
         /// <summary>
-        /// prints the matrix that indicates the tiles of the battlefield
+        /// Prints the matrix that indicates the tiles of the battlefield
         /// </summary>
         /// <param name="size">Size of the battlefield that will be drawn</param>
         public void DrawBattlefield()
@@ -42,9 +40,9 @@ namespace AutoBattle
                 for (int j = 0; j < (int)GridSize.Y; j++)
                 {
                     GridTile currentgrid = GridTiles[j][i];
-                    if (currentgrid.ocupiedBy != null)
+                    if (currentgrid.occupiedBy != null)
                     {
-                        if (currentgrid.ocupiedBy.IsEnemy)
+                        if (currentgrid.occupiedBy.IsEnemy)
                         {
                             Console.BackgroundColor = ConsoleColor.Red;
                         }
@@ -52,7 +50,7 @@ namespace AutoBattle
                         {
                             Console.BackgroundColor = ConsoleColor.Blue;
                         }
-                        Console.Write("[" + currentgrid.ocupiedBy.Sprite + "]\t");
+                        Console.Write("[" + currentgrid.occupiedBy.Sprite + "]\t");
                         Console.BackgroundColor = ConsoleColor.Black;
 
                     }
@@ -65,7 +63,10 @@ namespace AutoBattle
             }
             Console.Write(Environment.NewLine + Environment.NewLine);
         }
-
+        /// <summary>
+        /// Return a List of not occupied tiles
+        /// </summary>
+        /// <returns></returns>
         public List<GridTile> GetFreeTiles()
         {
             List<GridTile> freeTiles = new List<GridTile>();
@@ -74,7 +75,7 @@ namespace AutoBattle
             {
                 foreach (GridTile j in i)
                 {
-                    if (j.ocupiedBy == null)
+                    if (j.occupiedBy == null)
                     {
                         freeTiles.Add(j);
                     }
@@ -83,6 +84,10 @@ namespace AutoBattle
             return freeTiles;
         }
 
+        /// <summary>
+        /// Updates a tile data
+        /// </summary>
+        /// <param name="tile"></param>
         public void UpdateTile(GridTile tile)
         {
             for (int i = 0; i < GridTiles.Count; i++)
@@ -97,7 +102,11 @@ namespace AutoBattle
                 }
             }
         }
-
+        /// <summary>
+        /// Calculates the closest character from a tile
+        /// </summary>
+        /// <param name="gridTile"></param>
+        /// <returns>Closest character based on a tile</returns>
         public Character ClosestCharacter(GridTile gridTile)
         {
             float distance = float.PositiveInfinity;
@@ -106,13 +115,13 @@ namespace AutoBattle
             {
                 for (int j = 0; j < GridTiles[i].Count; j++)
                 {
-                    if (GridTiles[i][j].IsOcupied() && GridTiles[i][j].index != gridTile.index)
+                    if (GridTiles[i][j].IsOccupied() && GridTiles[i][j].index != gridTile.index)
                     {
                         float d = Vector2.Distance(gridTile.position, GridTiles[i][j].position);
                         if (d < distance)
                         {
                             distance = d;
-                            character = GridTiles[i][j].ocupiedBy;
+                            character = GridTiles[i][j].occupiedBy;
                         }
                     }
                 }

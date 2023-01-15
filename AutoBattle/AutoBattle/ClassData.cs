@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Numerics;
-using System.Text;
-using static AutoBattle.Types;
+﻿using static AutoBattle.Types;
 
 namespace AutoBattle
 {
@@ -38,6 +34,11 @@ namespace AutoBattle
         private static ClassStats cleric = new ClassStats("Cleric", 100, 70, 90, 2, "C", new Heal("Heal"));
         private static ClassStats archer = new ClassStats("Archer", 90, 80, 100, 3, "A", new Knockback("Knockback"));
 
+        /// <summary>
+        /// Returns a class "prefab"
+        /// </summary>
+        /// <param name="characterClass"></param>
+        /// <returns></returns>
         public static ClassStats GetClassData(CharacterClass characterClass)
         {
             switch (characterClass)

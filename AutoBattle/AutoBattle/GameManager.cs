@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using static AutoBattle.Types;
-using System.Numerics;
-using static AutoBattle.ClassData;
+﻿using System.Collections.Generic;
 
 namespace AutoBattle
 {
@@ -18,15 +12,10 @@ namespace AutoBattle
         public static List<Character> AllCharacters = new List<Character>();
         public static int CurrentTurn = 0;
 
-        public static Character GetRandomPlayer()
-        {
-            return AllPlayers[Randomizer.GetRandomInt(0, AllPlayers.Count)];
-        }
-        public static Character GetRandomEnemy()
-        {
-            return AllEnemies[Randomizer.GetRandomInt(0, AllEnemies.Count)];
-        }
-
+        /// <summary>
+        /// Checks if all players are dead
+        /// </summary>
+        /// <returns></returns>
         public static bool AllPlayerIsDead()
         {
             float sum = 0;
@@ -36,6 +25,10 @@ namespace AutoBattle
             }
             return sum <= 0;
         }
+        /// <summary>
+        /// Checks if all enemies are dead
+        /// </summary>
+        /// <returns></returns>
         public static bool AllEnemyIsDead()
         {
             float sum = 0;

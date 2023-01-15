@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using static AutoBattle.Types;
-using System.Numerics;
-using static AutoBattle.ClassData;
 
 namespace AutoBattle
 {
@@ -123,7 +120,7 @@ namespace AutoBattle
             int randomIndex = Randomizer.GetRandomInt(0, freeTiles.Count - 1);
             GridTile randomLocation = freeTiles.ElementAt(randomIndex);
 
-            randomLocation.ocupiedBy = character;
+            randomLocation.occupiedBy = character;
             character.CurrentTile = randomLocation;
 
             GameManager.Grid.UpdateTile(randomLocation);

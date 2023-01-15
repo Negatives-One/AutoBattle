@@ -7,42 +7,34 @@ namespace AutoBattle
 {
     public class Types
     {
-
-        public struct CharacterClassSpecific
-        {
-            CharacterClass characterClass;
-            float hpModifier;
-            float classDamage;
-            CharacterSkills[] skills;
-        }
-
+        /// <summary>
+        /// A struct that represents a game grid tile
+        /// </summary>
         public struct GridTile
         {
             public Vector2 position;
-            public Character ocupiedBy;
+            public Character occupiedBy;
             public int index;
 
             public GridTile(Vector2 pos, Character ocupied, int index)
             {
                 position = pos;
-                this.ocupiedBy = ocupied;
+                this.occupiedBy = ocupied;
                 this.index = index;
             }
-
-            public bool IsOcupied()
+            /// <summary>
+            /// Check if a GridTile is occupied
+            /// </summary>
+            /// <returns></returns>
+            public bool IsOccupied()
             {
-                return ocupiedBy != null;
+                return occupiedBy != null;
             }
 
         }
-
-        public struct CharacterSkills
-        {
-            string name;
-            float damage;
-            float damageMultiplier;
-        }
-
+        /// <summary>
+        /// Character classes enumerator
+        /// </summary>
         public enum CharacterClass : uint
         {
             Paladin = 1,

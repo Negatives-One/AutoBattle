@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using static AutoBattle.Types;
 using System.Numerics;
-using static AutoBattle.ClassData;
 
 namespace AutoBattle
 {
@@ -14,14 +9,17 @@ namespace AutoBattle
         {
 
         }
-
+        /// <summary>
+        /// Receives from player the size of the grid
+        /// </summary>
+        /// <returns></returns>
         public Vector2 GetGridSizeChoice()
         {
             int choiceX = 0;
             while (choiceX < 5 || choiceX > 10)
             {
                 //asks for the player to choose between for possible lengths via console.
-                Console.WriteLine("Choose grid width (5 - 10):\n");
+                Console.WriteLine("Choose grid height (5 - 10):\n");
                 //store the player choice in a variable
 
                 choiceX = int.Parse(Console.ReadLine());
@@ -34,7 +32,7 @@ namespace AutoBattle
             while (choiceY < 5 || choiceY > 10)
             {
                 //asks for the player to choose between for possible lengths via console.
-                Console.WriteLine("Choose grid height (5 - 10):\n");
+                Console.WriteLine("Choose grid width (5 - 10):\n");
                 //store the player choice in a variable
 
                 choiceY = int.Parse(Console.ReadLine());

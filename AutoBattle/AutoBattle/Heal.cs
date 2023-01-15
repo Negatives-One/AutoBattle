@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using static AutoBattle.Types;
-using System.Numerics;
-using static AutoBattle.ClassData;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace AutoBattle
 {

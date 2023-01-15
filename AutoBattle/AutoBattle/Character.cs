@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
 using static AutoBattle.Types;
 using System.Numerics;
 using static AutoBattle.ClassData;
@@ -27,6 +25,7 @@ namespace AutoBattle
 
         public Skill ClassSkill { get; set; }
 
+        //fill dependencies
         public Character(CharacterClass _characterClass, int _contextIndex, int _characterIndex, bool _isEnemy)
         {
             Name = NameGenerator.GetRandomName();
@@ -45,13 +44,18 @@ namespace AutoBattle
             ClassSkill = stats.skill;
             ClassSkill.Owner = this;
         }
-
+        /// <summary>
+        /// This method is called when a character enters the battlefield
+        /// </summary>
         public void Deployed()
         {
             if (IsEnemy) Target = GameManager.AllPlayers;
             else Target = GameManager.AllEnemies;
         }
-
+        /// <summary>
+        /// Makes a character lose an amount of health
+        /// </summary>
+        /// <param name="amount"></param>
         public void TakeDamage(float amount)
         {
             Health -= amount;
@@ -62,12 +66,15 @@ namespace AutoBattle
             }
         }
 
+        /// <summary>
+        /// Make a character die, this cancels turns
+        /// </summary>
         public void Die()
         {
             IsDead = true;
 
             GridTile updatedTile = CurrentTile;
-            updatedTile.ocupiedBy = null;
+            updatedTile.occupiedBy = null;
             GameManager.Grid.UpdateTile(updatedTile);
 
             if (IsEnemy) GameManager.AllEnemies.Remove(this);
@@ -77,7 +84,10 @@ namespace AutoBattle
             GameManager.Grid.DrawBattlefield();
             Console.WriteLine($"\nCharacter {Name}({ClassName}) is Dead.\n\n");
         }
-
+        /// <summary>
+        /// Move a character in the Grid
+        /// </summary>
+        /// <param name="dir"></param>
         public void WalkTo(Vector2 dir)
         {
             try
@@ -95,25 +105,28 @@ namespace AutoBattle
             Vector2 currentPos = CurrentTile.position;
 
             GridTile oldTile = GameManager.Grid.GridTiles[(int)currentPos.X][(int)currentPos.Y];
-            oldTile.ocupiedBy = null;
+            oldTile.occupiedBy = null;
             GameManager.Grid.UpdateTile(oldTile);
 
             Vector2 newPos = CurrentTile.position + dir;
 
             GridTile newTile = GameManager.Grid.GridTiles[(int)newPos.X][(int)newPos.Y];
-            newTile.ocupiedBy = this;
+            newTile.occupiedBy = this;
             GameManager.Grid.UpdateTile(newTile);
 
             CurrentTile = GameManager.Grid.GridTiles[(int)newPos.X][(int)newPos.Y];
 
             GameManager.Grid.DrawBattlefield();
         }
-        
+
+        /// <summary>
+        /// Called when a character starts their turn, runs all turn logic
+        /// </summary>
         public void StartTurn()
         {
             if (!IsDead)
             {
-                List<Character> possibleTargets = CheckInRangeTargets(GameManager.Grid);
+                List<Character> possibleTargets = CheckInRangeTargets();
                 if (possibleTargets.Count > 0)
                 {
                     Attack(possibleTargets);
@@ -136,8 +149,11 @@ namespace AutoBattle
 
         }
 
-        // Check in x and y directions if there is any character close enough to be a target.
-        private List<Character> CheckInRangeTargets(Grid battlefield)
+        /// <summary>
+        /// Detect Lateral characters based on Character's attack range
+        /// </summary>
+        /// <returns>A list of targets to attack</returns>
+        private List<Character> CheckInRangeTargets()
         {
             List<Character> possibleTargets = new List<Character>();
 
@@ -149,9 +165,9 @@ namespace AutoBattle
                 if ((int)checkingFrom.X - i >= 0)
                 {
                     GridTile elementLeft = GameManager.Grid.GridTiles[(int)checkingFrom.X - i][(int)checkingFrom.Y];
-                    if (elementLeft.ocupiedBy != null)
+                    if (elementLeft.occupiedBy != null)
                     {
-                        if (ShouldKill(elementLeft.ocupiedBy)) possibleTargets.Add(elementLeft.ocupiedBy);
+                        if (ShouldKill(elementLeft.occupiedBy)) possibleTargets.Add(elementLeft.occupiedBy);
                     }
                 }
 
@@ -159,9 +175,9 @@ namespace AutoBattle
                 if ((int)checkingFrom.X + i < GameManager.Grid.GridSize.Y)
                 {
                     GridTile elementRight = GameManager.Grid.GridTiles[(int)checkingFrom.X + i][(int)checkingFrom.Y];
-                    if (elementRight.ocupiedBy != null)
+                    if (elementRight.occupiedBy != null)
                     {
-                        if (ShouldKill(elementRight.ocupiedBy)) possibleTargets.Add(elementRight.ocupiedBy);
+                        if (ShouldKill(elementRight.occupiedBy)) possibleTargets.Add(elementRight.occupiedBy);
                     }
                 }
 
@@ -169,9 +185,9 @@ namespace AutoBattle
                 if ((int)checkingFrom.Y - i >= 0)
                 {
                     GridTile elementAbove = GameManager.Grid.GridTiles[(int)checkingFrom.X][(int)checkingFrom.Y - i];
-                    if (elementAbove.ocupiedBy != null)
+                    if (elementAbove.occupiedBy != null)
                     {
-                        if (ShouldKill(elementAbove.ocupiedBy)) possibleTargets.Add(elementAbove.ocupiedBy);
+                        if (ShouldKill(elementAbove.occupiedBy)) possibleTargets.Add(elementAbove.occupiedBy);
                     }
                 }
 
@@ -179,16 +195,19 @@ namespace AutoBattle
                 if ((int)checkingFrom.Y + i < GameManager.Grid.GridSize.X)
                 {
                     GridTile elementBelow = GameManager.Grid.GridTiles[(int)checkingFrom.X][(int)checkingFrom.Y + i];
-                    if (elementBelow.ocupiedBy != null)
+                    if (elementBelow.occupiedBy != null)
                     {
-                        if (ShouldKill(elementBelow.ocupiedBy)) possibleTargets.Add(elementBelow.ocupiedBy);
+                        if (ShouldKill(elementBelow.occupiedBy)) possibleTargets.Add(elementBelow.occupiedBy);
                     }
                 }
             }
 
             return possibleTargets;
         }
-
+        /// <summary>
+        /// Directs an attack at another character, cause damage
+        /// </summary>
+        /// <param name="targets"></param>
         public void Attack(List<Character> targets)
         {
             Character selectedTarget = targets[Randomizer.GetRandomInt(0, targets.Count)];
@@ -210,18 +229,30 @@ namespace AutoBattle
             Console.WriteLine($"Player {Name}({ClassName}) is attacking the player {selectedTarget.Name}({selectedTarget.ClassName}) and did {damageDealt} damage\n");
             Console.WriteLine($"{selectedTarget.Name}({selectedTarget.ClassName}) has {selectedTarget.Health} health left\n\n");
         }
-
+        /// <summary>
+        /// Checks if a character is an enemy of this character
+        /// </summary>
+        /// <param name="character"></param>
+        /// <returns></returns>
         private bool ShouldKill(Character character)
         {
             if (IsEnemy != character.IsEnemy) return true;
             else return false;
         }
-
+        /// <summary>
+        /// Checks if a direction to walk is occupied
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <returns></returns>
         private bool MoveOcupied(Vector2 dir)
         {
-            return GameManager.Grid.GridTiles[(int)CurrentTile.position.X + (int)dir.X][(int)CurrentTile.position.Y + (int)dir.Y].IsOcupied();
+            return GameManager.Grid.GridTiles[(int)CurrentTile.position.X + (int)dir.X][(int)CurrentTile.position.Y + (int)dir.Y].IsOccupied();
         }
-
+        /// <summary>
+        /// turns the minor magnitude axis of a vector to zero
+        /// </summary>
+        /// <param name="originalVector"></param>
+        /// <returns></returns>
         private Vector2 IgnoreSmallerAxis(Vector2 originalVector)
         {
             if (MathF.Abs(originalVector.X) > MathF.Abs(originalVector.Y))

@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
-using static AutoBattle.Types;
-using System.Numerics;
-using static AutoBattle.ClassData;
-
-namespace AutoBattle
+﻿namespace AutoBattle
 {
     public static class NameGenerator
     {
@@ -34,7 +26,10 @@ namespace AutoBattle
             "Runebeard", "Silverheart", "Stoneshield", "Stormbringer", "Sunblade"
         };
 
-
+        /// <summary>
+        /// Generate a random name and surname string
+        /// </summary>
+        /// <returns></returns>
         public static string GetRandomName()
         {
             string randomFirstName = names[Randomizer.GetRandomInt(0, names.Length)];
